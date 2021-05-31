@@ -6,10 +6,9 @@ region = "ap-south-1"
 locals{
         ssh_user        = "ec2-user"
         key_name        = "dev"
+
+
 }
-
-
-
 
 resource "aws_instance""web"{
 
@@ -21,22 +20,20 @@ tags = {
 Name = "webserver"
 }
 
-provisioner "local-exec" {
-        command = "echo ${self.public_ip} > public-ip.txt"
-}
-connection {
+
+provisioner "remote-exec"{
+        inline = ["echo 'wait until SSH is ready'"]
+
+        connection {
         type    = "ssh"
-        host    = self.public_ip
-        user    = "ec2-user"
+        user    = local.ssh_user
         private_key = file("dev.pem")
-}
-
-
-provisioner "file" {
-        source  = "public-ip.txt"
-        //content = "hello world"
-        destination ="/home/ec2-user/publicips.txt"
+        host    = aws_instance.web.public_ip
 }
 }
 
 
+provisioner "local-exec" {
+command = "ansible-playbook -i ${aws_instance.web.public_ip}, --private-key ${"dev.pem"} httpd.yml"
+}
+}
