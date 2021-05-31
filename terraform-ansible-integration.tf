@@ -6,7 +6,6 @@ region = "ap-south-1"
 locals{
         ssh_user        = "ec2-user"
         key_name        = "dev"
-        private_key_path = "/home/ec2-user/aws-keys/dev.pem"
 }
 
 
@@ -29,7 +28,7 @@ connection {
         type    = "ssh"
         host    = self.public_ip
         user    = "ec2-user"
-        private_key = file("/home/ec2-user/aws-keys/dev.pem")
+        private_key = file("dev.pem")
 }
 
 
