@@ -22,7 +22,7 @@ Name = "webserver"
 }
 
 provisioner "local-exec" {
-        command = "echo ${self.public_ip} >> public-ip.txt"
+        command = "echo ${self.public_ip} > public-ip.txt"
 }
 connection {
         type    = "ssh"
