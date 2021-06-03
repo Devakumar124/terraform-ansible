@@ -12,7 +12,7 @@ tags = {
 Name = "deleted"
 }
 provisioner "local-exec" {
-command = "echo ${self.public_ip} ansible-user=ec2-user > public-ip"
+command = "echo ${self.public_ip} ansible_user=ec2-user > public-ip"
 }
 }
         
